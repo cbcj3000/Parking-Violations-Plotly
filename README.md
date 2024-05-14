@@ -13,14 +13,7 @@ This map displays parking violations recorded from the year 2015 to the present 
 - Layers Buttons
    - Only filter currently shown is parking meters and is retrieved fromt he backend using an API from OpenData
 
-How to read the data: Each point represents a spot where at least one parking violation occured. The darker the spot, the more violations occured at that location. You can see more information about a spot, icluding the amount of violations when you hover over it.
-
-INCLUDE CHRISTINA:
-- PHOTO OF THE POPUPS
-- GRAND PHOTO
-- CHANGE RANGE
-- CHANGE FILTERS
-- SPECIFIC PHOTO OF THE PIE CHART ONLY
+How to read the data: Each point represents a spot where at least one parking violation occured. The more red the spot, the more violations occured at that location. You can see more information about a spot, icluding the amount of violations when you hover over it.
 
 Notes:
 - I set the min year to 2015 as based on the data I was using anything before 2015 is not as accurate
