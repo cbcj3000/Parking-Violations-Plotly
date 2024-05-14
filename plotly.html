@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -41,25 +42,6 @@
 
         #currentButtonText {
             font-size: 16px;
-        }
-
-        #loadingOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #loadingText {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
         }
 
         #banner {
@@ -252,7 +234,7 @@
             position: absolute;
             z-index: 2;
             top: 7%;
-            left: 6%;
+            left: 1%;
             transition: width 0.3s;
         }
 
@@ -295,30 +277,63 @@
             position: relative;
         }
 
-        /* Add this CSS in your CSS file or style section of your HTML template */
-        .legend {
-            position: absolute;
-            left: 1%;
-            /* Adjust the left position according to your design */
-            top: 8%;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .legend-item {
-            height: 97%;
-            /* Span from top to bottom */
-            width: 20px;
-            /* Adjust the width according to your design */
-        }
+        #loadingOverlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.8);
+                z-index: 1000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+    
+            #loadingLogo {
+                width: 200px;
+                /* Adjust the width and height according to your logo size */
+                height: auto;
+                position: relative;
+                animation: fillWater 3s infinite;
+                /* Apply water filling animation to the logo */
+            }
+    
+            @keyframes fillWater {
+                0% {
+                    clip-path: inset(100% 0 0 0);
+                }
+    
+                50% {
+                    clip-path: inset(0 0 0 0);
+                }
+    
+                100% {
+                    clip-path: inset(0 0 100% 0);
+                }
+            }
     </style>
 </head>
 
 <body>
+        <div id="legend" style="position: absolute; bottom: 10px; left: 10px; z-index: 1000;">
+                <svg width="200" height="20">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color: red; stop-opacity:1" />
+                            <stop offset="20%" style="stop-color: #FF1493; stop-opacity:1" /> <!-- More pink color -->
+                            <stop offset="40%" style="stop-color: white; stop-opacity:1" />
+                            <stop offset="60%" style="stop-color: lightgreen; stop-opacity:1" />
+                            <stop offset="100%" style="stop-color: green; stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="200" height="20" fill="url(#grad1)" />
+                </svg>
+            </div>
+            
     <div id="loadingOverlay">
-        <div id="loadingText">Loading lots of info, please be patient...</div>
+        <!-- Replace the text with your logo image -->
+        <img src="{% static 'images/loading.png' %}" alt="Loading..." id="loadingLogo">
     </div>
     <div id="banner">
 
@@ -328,8 +343,8 @@
                 <!-- This container will hold the checkboxes for violation codes -->
                 {% for code in available_violation_codes %}
                 <input type="checkbox" id="violationCode_{{ code }}" name="violationCode" value="{{ code }}">
-                <label for="violationCode_{{ code }}">{{ code }}</label>
-                <span id="violationDescription_{{ code }}">{{ code }}</span>
+                <label for="violationCode_{{ code }}"></label>
+                <span id="violationDescription_{{ code }}"></span>
                 <br>
                 {% endfor %}
             </div>
@@ -344,6 +359,7 @@
                 {% endfor %}
             </div>
         </div>
+
 
         <div id="yearDropdowns">
             <label for="startYear">Start Year:</label>
@@ -362,29 +378,14 @@
 
 
     <div id="sidebar" class="">
-        <div id="sidebarContent"><h1><span id="currentButtonText">Current Filters</span></h1>
-        <h1>Current Years: <span id="currentYearsValue"></span></h1>
-        <h1>Current Violation Code(s): <span id="currentViolationCodesValue"></span></h1>
-        <h1>Current Borough(s): <span id="currentBoroughsValue"></span></h1>
-        <h1>Violation Code ID: The code(s) <span id="violationCodeIDValue"></span> are also identified as:</h1>
-        <h1><div id="violationCodeDescriptionsContainer"></div></h1>
-        <h2 id="pieChartTitle"> <span id="selectedYears"></span></h2>
-        <div id="pieChart">{{ pie_div|safe }}</div>
-        <div id="aboutTabContent">
-
-
-
-                <!-- <div id="violationCodes">
-                    <label>Violation Codes:</label>
-                    <br>
-                    {% for code in available_violation_codes %}
-                    <input type="checkbox" id="violationCode_{{ code }}" name="violationCode" value="{{ code }}">
-                    <label for="violationCode_{{ code }}">{{ code }}</label>
-                    <span id="violationDescription_{{ code }}"></span>
-                    <br>
-                    {% endfor %}
-                </div> -->
-
+        <div id="sidebarContent">
+            <h1><span id="currentButtonText">Current Filters</span></h1>
+            <h1>Current Years: <span id="currentYearsValue"></span></h1>
+            <h1>Current Violation Code(s): <span id="currentViolationCodesValue"></span></h1>
+            <h1>Current Borough(s): <span id="currentBoroughsValue"></span></h1>
+            <h2 id="pieChartTitle"> <span id="selectedYears"></span></h2>
+            <div id="pieChart">{{ pie_div|safe }}</div>
+            <div id="aboutTabContent">
 
                 <h2>About</h2>
                 <p>This map shows parking violations recorded from the year 2015 to the present(NOT FISCAL YEAR).
@@ -414,129 +415,49 @@
         </div>
     </div>
 
-    <!-- <div id="currentToggle" onclick="toggleCurrent()">
-        <span id="currentButtonText">Current Filters</span>
-        <div id="currentList" style="display:none;">
-            <h2>Current Years: <span id="currentYearsValue"></span></h2>
-            <h2>Current Violation Code(s): <span id="currentViolationCodesValue"></span></h2>
-            <h2>Current Borough(s): <span id="currentBoroughsValue"></span></h2>
-        </div>
-    </div> -->
-
-    <div class="legend">
-        <div class="legend-item"
-            style="background: linear-gradient(to bottom, #8B0000, #DC143C, #FF69B4, #FFFFFF, #90EE90, #008000);"></div>
-    </div>
-
     <script>
         //-------------------------------------Current Filters-----------------------------------------
-// Update the Violation Code ID section and display violation code descriptions
-async function updateViolationCodeID() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var selectedViolationCodes = urlParams.getAll('violation_code');
-
-    // Django context variable containing the mapping of violation codes to IDs
-    var violationCodeMapping = {
-        {% for code, description in violation_code_mapping.items %}
-        '{{ code }}': '{{ description }}',
-        {% endfor %}
-    };
-
-    // Create arrays to hold violation code IDs and descriptions
-    var violationCodeIDs = [];
-    var violationCodeDescriptions = [];
-
-    // Loop through selected violation codes
-    selectedViolationCodes.forEach(function (code) {
-        var description = violationCodeMapping[code];
-        if (description) {
-            // Remove HTML encoding from the description
-            description = description.replace(/&#x27;/g, "'");
-            violationCodeIDs.push(code);
-            violationCodeDescriptions.push(description.replace(/^\[|\]$/g, '')); // Remove square brackets
-        }
-    });
-
-    // Update the Violation Code ID section
-    var violationCodeIDValue = document.getElementById('violationCodeIDValue');
-    violationCodeIDValue.textContent = violationCodeIDs.length > 0 ? violationCodeIDs.join(', ') : 'None';
-
-    // Display the violation code descriptions
-    var violationCodeDescriptionsContainer = document.getElementById('violationCodeDescriptionsContainer');
-    violationCodeDescriptionsContainer.innerHTML = ''; // Clear previous descriptions
-    violationCodeDescriptions.forEach(function (description, index) {
-        var span = document.createElement('span');
-        span.textContent = `${violationCodeIDs[index]}: ${description}`.replace(/\'/g, ''); // Remove single quotes
-        violationCodeDescriptionsContainer.appendChild(span);
-        if (index < violationCodeDescriptions.length - 1) {
-            violationCodeDescriptionsContainer.appendChild(document.createTextNode(', '));
-        }
-        violationCodeDescriptionsContainer.appendChild(document.createElement('br')); // Add line break
-    });
-}
-
-// Call the function to update the Violation Code ID section when violation codes change
-document.querySelectorAll('input[name="violationCode"]').forEach(function (checkbox) {
-    checkbox.addEventListener('change', updateViolationCodeID);
-});
-
-// Call the function initially to populate the Violation Code ID section
-updateViolationCodeID();
-
-        // Function to update the current filters
         async function updateCurrentFilters() {
             var currentYears = document.getElementById('currentYearsValue');
             var currentViolationCodes = document.getElementById('currentViolationCodesValue');
             var currentBoroughs = document.getElementById('currentBoroughsValue');
 
-            // Retrieve the selected years from the URL parameters
             var urlParams = new URLSearchParams(window.location.search);
             var startYear = urlParams.get('start_date');
             var endYear = urlParams.get('end_date');
 
-            // If start and end years are not provided, set default values
             if (!startYear || !endYear) {
                 startYear = '2015';
                 endYear = '2024';
             }
 
-            // Extract only the year part
             startYear = startYear.split('-')[0];
             endYear = endYear.split('-')[0];
 
-            // Retrieve the selected violation codes and boroughs from the URL parameters
             var selectedViolationCodes = urlParams.getAll('violation_code');
             var selectedBoroughs = urlParams.getAll('borough');
 
-            // Convert selected violation codes to their descriptions
             var violationCodeDescriptions = await Promise.all(selectedViolationCodes.map(async function (code) {
                 return await fetchViolationCodeDescription(code);
             }));
 
-            // Map borough abbreviations to their corresponding names
             var boroughNames = {
         {% for abbreviation, name in boroughNames.items %}
             '{{ abbreviation }}': '{{ name }}',
                 {% endfor %}
     };
 
-        // Convert selected boroughs to their names
         var selectedBoroughNames = selectedBoroughs.map(function (abbreviation) {
             return boroughNames[abbreviation];
         });
-
-        // Update the values
         currentYears.textContent = startYear + ' - ' + endYear;
         currentViolationCodes.textContent = violationCodeDescriptions.length > 0 ? violationCodeDescriptions.join(', ') : 'None';
         currentBoroughs.textContent = selectedBoroughNames.length > 0 ? selectedBoroughNames.join(', ') : 'None';
-
-        // Update the titles
         document.getElementById('currentYearsTitle').textContent = "Current Years:";
         document.getElementById('currentViolationCodesTitle').textContent = "Current Violation Code(s):";
         document.getElementById('currentBoroughsTitle').textContent = "Current Borough(s):";
 }
 
-        // Call updateCurrentFilters() when the page loads
         window.addEventListener('load', updateCurrentFilters);
 
         //-------------------------------------Parking Meters-----------------------------------------
@@ -556,33 +477,24 @@ updateViolationCodeID();
             currentList.style.display = currentToggle.classList.contains('expanded') ? 'block' : 'none';
         }
 
-        // Function to store checkbox state in local storage
         function storeCheckboxState(checkboxId, isChecked) {
             localStorage.setItem(checkboxId, isChecked);
         }
 
-        // Function to retrieve checkbox state from local storage
         function getCheckboxState(checkboxId) {
             return localStorage.getItem(checkboxId) === 'true';
         }
 
-        // Function to update checkbox state on page load
         function updateCheckboxStateOnLoad(checkboxId) {
             var checkbox = document.getElementById(checkboxId);
             var isChecked = getCheckboxState(checkboxId);
-
-            // Check if the current page URL matches the desired link
-            if (window.location.href === 'http://10.243.109.161:8080/plotly/') {
-                // If the link matches, reset the parking meters toggle checkbox
+            if (window.location.href === 'http://IP/plotly/') {
                 checkbox.checked = false;
                 storeCheckboxState('parkingMetersToggle', false);
             } else {
-                // Otherwise, set the checkbox according to its stored state
                 checkbox.checked = isChecked;
             }
         }
-
-        // Call updateCheckboxStateOnLoad for each checkbox on page load
         window.addEventListener('load', function () {
             updateCheckboxStateOnLoad('parkingMetersToggle');
             updateCheckboxStateOnLoad('otherLayerToggle');
@@ -593,26 +505,17 @@ updateViolationCodeID();
             var isChecked = parkingMetersToggle.checked;
             storeCheckboxState('parkingMetersToggle', isChecked);
 
-            // Retrieve the value of fetch_api_data parameter from the URL
             var urlParams = new URLSearchParams(window.location.search);
             var fetchApiDataParam = urlParams.get('fetch_api_data');
 
-            // Check if the fetch_api_data parameter exists in the URL
             if (fetchApiDataParam !== null) {
-                // Update the value of fetch_api_data parameter based on the parking meters toggle
                 urlParams.set('fetch_api_data', isChecked);
             } else {
-                // If fetch_api_data parameter doesn't exist, add it to the URL
                 urlParams.append('fetch_api_data', isChecked);
             }
-
-            // Update the URL with the modified parameters
             window.history.replaceState(null, null, '?' + urlParams.toString());
-
-            // Reload the map to reflect the changes
             updateMap();
 
-            // Log the state change to the console
             if (isChecked) {
                 console.log("Parking meters layer is now ON");
             } else {
@@ -620,18 +523,13 @@ updateViolationCodeID();
             }
         }
 
-
-
         // Function to toggle the other layer
         function toggleOtherLayer() {
-            // Add functionality to toggle visibility of other layer
             var otherLayerToggle = document.getElementById('otherLayerToggle');
             var isChecked = otherLayerToggle.checked;
             if (isChecked) {
-                // Code to show other layer
                 console.log("Other layer is now ON");
             } else {
-                // Code to hide other layer
                 console.log("Other layer is now OFF");
             }
         }
@@ -642,23 +540,17 @@ updateViolationCodeID();
             var loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.style.display = 'none';
 
-            // Check if the URL matches the desired pattern
-            if (window.location.href === 'http://10.243.109.161:8080/plotly/') {
-                // Reset dropdowns to default values
+            if (window.location.href === 'http://IP/plotly/') {
                 document.getElementById('startYear').value = 2015;
                 document.getElementById('endYear').value = 2024;
             }
-            // Retrieve start and end years from dropdowns after setting default values
             var startYear = document.getElementById('startYear').value;
             var endYear = document.getElementById('endYear').value;
-
-            // Update the pie chart title with the retrieved start and end years
             updatePieChartTitle(startYear, endYear);
         });
         //-------------------------------------Borough-----------------------------------------
         function toggleBoroughs() {
             var boroughsContainer = document.getElementById('boroughsContainer');
-
             if (boroughsContainer.style.display === 'none') {
                 boroughsContainer.style.display = 'block';
             } else {
@@ -667,10 +559,8 @@ updateViolationCodeID();
         }
         //-------------------------------------Apply -----------------------------------------
         document.getElementById('applyButton').addEventListener('click', function () {
-            // Hide the violation codes container when the "Apply" button is clicked
             document.getElementById('violationCodesContainer').style.display = 'none';
             document.getElementById('boroughsContainer').style.display = 'none';
-            // Call the function to update the map
             updateMap();
             updatePieChart();
         });
@@ -681,19 +571,13 @@ updateViolationCodeID();
             // Get selected start and end years
             var startYear = document.getElementById('startYear').value;
             var endYear = document.getElementById('endYear').value;
-            // Show loading indicator
             showLoadingIndicator();
 
-            // Construct the URL with the selected date range
             var url = `/plotly/?start_date=${startYear}-01-01&end_date=${endYear}-12-31`;
-
-            // Make an AJAX request to fetch the pie chart data
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    // Update the pie chart container with the received HTML
                     document.getElementById('pieChartContainer').innerHTML = data;
-                    // Call updatePieChartTitle after the pie chart is created
                     updatePieChartTitle(startYear, endYear);
                 })
                 .catch(error => console.error('Error updating pie chart:', error));
@@ -707,7 +591,6 @@ updateViolationCodeID();
         }
 
         //-------------------------------------Violation Description-----------------------------------------
-        // Function to fetch violation code description
         async function fetchViolationCodeDescription(violationCode) {
             try {
                 const response = await fetch(`https://data.cityofnewyork.us/resource/ncbg-6agr.json?code=${violationCode}`);
@@ -720,7 +603,6 @@ updateViolationCodeID();
             }
         }
 
-        // Function to update violation code descriptions next to checkboxes
         async function updateViolationCodeDescriptions() {
             const checkboxes = document.querySelectorAll('input[name="violationCode"]');
             checkboxes.forEach(async checkbox => {
@@ -733,7 +615,6 @@ updateViolationCodeID();
             });
         }
 
-        // Call the function to update violation code descriptions when the page loads
         window.addEventListener('load', updateViolationCodeDescriptions);
 
         function toggleViolationCodes() {
@@ -745,7 +626,6 @@ updateViolationCodeID();
                 violationCodesContainer.style.display = 'none';
             }
         }
-
         //-------------------------------------Update Map based on Range-----------------------------------------
         // Update Map based on Range
         function updateMap() {
@@ -761,18 +641,13 @@ updateViolationCodeID();
                 return checkbox.value;
             });
 
-            // Show loading indicator
             showLoadingIndicator();
-
-            // Update the URL with selected years and violation codes as query parameters
             var queryParams = new URLSearchParams(window.location.search);
             queryParams.set('start_date', startYear + '-01-01');
             queryParams.set('end_date', endYear + '-12-31');
-
-            // Clear existing violation code parameters
             queryParams.delete('violation_code');
             queryParams.delete('borough');
-            // Append selected violation codes
+            
             selectedViolationCodes.forEach(function (code) {
                 queryParams.append('violation_code', code);
             });
@@ -782,14 +657,11 @@ updateViolationCodeID();
             });
 
             window.history.pushState({}, document.title, '?' + queryParams.toString());
-
-            // Always reload the map when the "Apply" button is clicked
             location.reload();
         }
 
 
         function fetchTotalRecords(startYear, endYear) {
-            // Get selected violation codes
             var selectedViolationCodes = Array.from(document.querySelectorAll('input[name="violationCode"]:checked')).map(function (checkbox) {
                 return checkbox.value;
             });
@@ -798,10 +670,8 @@ updateViolationCodeID();
                 return checkbox.value;
             });
 
-            // Send an AJAX request to fetch the total number of records within the specified date range and violation codes
             var url = `/plotly?start_date=${startYear}-01-01&end_date=${endYear}-12-31`;
 
-            // Append selected violation codes to the URL parameters if any are selected
             if (selectedViolationCodes.length > 0) {
                 url += `&violation_code=${selectedViolationCodes.join(',')}`;
             }
@@ -831,36 +701,25 @@ updateViolationCodeID();
             loadingIndicator.style.padding = '20px';
             loadingIndicator.style.borderRadius = '5px';
             loadingIndicator.style.zIndex = '1000';
-
-            // Increase font size and font weight
-            loadingIndicator.style.fontSize = '30px'; // Adjust as needed
-            loadingIndicator.style.fontWeight = 'bold'; // Adjust as needed
-
+            loadingIndicator.style.fontSize = '30px'; 
+            loadingIndicator.style.fontWeight = 'bold'; 
             document.body.appendChild(loadingIndicator);
         }
         //-------------------------------------Dropdown-----------------------------------------
-
-        // Function to update the URL parameters with the selected years
         function updateURLParams(params) {
             var url = window.location.href.split('?')[0]; // Get the base URL
             var queryParams = new URLSearchParams(window.location.search); // Get the existing query parameters
 
-            // Update or append the new parameters
             for (var key in params) {
                 if (params.hasOwnProperty(key)) {
                     queryParams.set(key, params[key]);
                 }
             }
 
-            // Append updated query parameters to the base URL
             url += '?' + queryParams.toString();
-
-            // Replace the current URL with the updated one
             window.history.replaceState(null, null, url);
         }
 
-        // Function to populate the year dropdowns
-        // Function to populate the year dropdowns
         function populateYearDropdowns() {
             var startYearDropdown = document.getElementById('startYear');
             var endYearDropdown = document.getElementById('endYear');
@@ -870,27 +729,19 @@ updateViolationCodeID();
                 startYearDropdown.add(option);
                 endYearDropdown.add(option.cloneNode(true));
             }
-
-            // Retrieve start and end years from URL parameters
             var urlParams = new URLSearchParams(window.location.search);
             var startYearParam = urlParams.get('start_date');
             var endYearParam = urlParams.get('end_date');
-
-            // Set default values if URL parameters are not provided
             var defaultStartYear = 2015;
             var defaultEndYear = new Date().getFullYear();
-
-            // Set the selected values for the dropdowns
             startYearDropdown.value = startYearParam ? startYearParam.split('-')[0] : defaultStartYear;
             endYearDropdown.value = endYearParam ? endYearParam.split('-')[0] : defaultEndYear;
         }
 
-        // Call populateYearDropdowns() when the DOM content is loaded
         document.addEventListener('DOMContentLoaded', function () {
             populateYearDropdowns();
         });
 
-        // Store selected start and end years in local storage
         function storeSelectedYears() {
             var startYear = document.getElementById('startYear').value;
             var endYear = document.getElementById('endYear').value;
@@ -899,7 +750,6 @@ updateViolationCodeID();
             localStorage.setItem('endYear', endYear);
         }
 
-        // Call storeSelectedYears() when the "Apply" button is clicked
         document.getElementById('applyButton').addEventListener('click', function () {
             storeSelectedYears();
             updateMap();
@@ -908,18 +758,14 @@ updateViolationCodeID();
         });
 
         //-------------------------------------About-----------------------------------------
-
         function toggleAboutSidebar() {
             var sidebar = document.getElementById('sidebar');
             var aboutTabContent = document.getElementById('aboutTabContent');
 
-            // Toggle the display of the sidebar
             if (sidebar.style.display === 'none' || aboutTabContent.style.display === 'none') {
-                // Show the sidebar with About tab content
                 sidebar.style.display = 'block';
                 aboutTabContent.style.display = 'block';
             } else {
-                // Hide the sidebar
                 sidebar.style.display = 'none';
                 aboutTabContent.style.display = 'none';
             }
