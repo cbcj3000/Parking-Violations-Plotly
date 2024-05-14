@@ -8,6 +8,7 @@ This map displays parking violations recorded from the year 2015 to the present 
       - A legend that correlates the color to the violation. The Plotly library also allows users to remove and add section of the pie chart back by clicking on a specific violation code sqaure
 - Total Records that says how many records are in the specified data range and is also changed by the filters(borough & violation code)
 - Start and End year drop downs that filter the data when apply is clicked
+- Loading image when page reloads
 - Borough Filter
 - Violation Filter(this affects the pie chart)
 - Layers Buttons
