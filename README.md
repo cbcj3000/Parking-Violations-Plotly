@@ -22,55 +22,25 @@ An interactive map visualizing NYC parking violations from 2015 to the present u
 - Loading indicator during data refresh.
 - Hover tooltips displaying violation counts and location details.
 
-Build Process
-Retrieve parking violation data from NYC OpenData API.
-
-Use Plotly to:
-
-Display heatmap of violation locations.
-
-Render interactive, downloadable pie charts for violation type analysis.
-
-Build sidebar with dynamic elements tied to filters.
-
-Implement borough, violation, and year range filters for refined exploration.
-
-Optimize interactivity with loading indicators and real-time updates.
-
-Lessons Learned
-Integrating Plotly for map-based heatmaps and interactive charts.
-
-Efficiently filtering large datasets client-side for performance.
-
-Designing intuitive user interfaces for exploring spatial and categorical data.
+**Lessons Learned**
+- Integrating Plotly for map-based heatmaps and interactive charts.
+- Efficiently filtering large datasets client-side for performance.
+- Designing intuitive user interfaces for exploring spatial and categorical data.
 
 Areas for Improvement
-Add additional layers (e.g., street infrastructure, traffic camera data).
+- Add additional layers (e.g., street infrastructure, traffic camera data).
+- Improve loading speed, as over 2 billion records are beign read in
+- Enable exporting filtered data as CSV for user analysis.
+- Incorporate time-based animation to visualize violation trends over years.
 
-Improve mobile responsiveness.
+**Setup Instructions**
+- Clone this repository:
+```git clone https://github.com/cbcj3000/Parking-Violations-Plotly.git```
+- Open plotly.html in your browser.
 
-Enable exporting filtered data as CSV for user analysis.
+**How to Read the Data**
+- Each point represents a location with at least one recorded parking violation.
+- Redder spots indicate higher violation counts.
+- Hover over points to view detailed counts and location info.
 
-Incorporate time-based animation to visualize violation trends over years.
-
-Setup Instructions
-Clone this repository:
-
-bash
-Copy
-Edit
-git clone [repo link]
-Ensure you have an internet connection to load Plotly and API data.
-
-Open index.html in your browser.
-
-Use the sidebar filters to explore NYC parking violation data from 2015 to the present.
-
-How to Read the Data
-Each point represents a location with at least one recorded parking violation.
-
-Redder spots indicate higher violation counts.
-
-Hover over points to view detailed counts and location info.
-
-Note: The dataset is filtered to 2015 onwards due to accuracy limitations in earlier data.
+*Note: The dataset is filtered to 2015 onwards due to accuracy limitations in earlier data.*
