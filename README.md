@@ -11,8 +11,8 @@ An interactive map visualizing NYC parking violations from 2015 to the present u
 **Key Features**
 - Interactive map displaying parking violation density by location (redder = more violations).
 - Dynamic sidebar with:
- - About section explaining the map’s purpose.
- - Pie chart showing violation ratios within the selected range, downloadable via Plotly.
+  - About section explaining the map’s purpose.
+  - Pie chart showing violation ratios within the selected range, downloadable via Plotly.
 - Legend correlating colors to violation types.
 - Dynamic title reflecting the current year range displayed.
 - Total record count that updates based on filters (borough & violation code).
